@@ -1,0 +1,492 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "jetBrains Mono";
+    src: url(font/JetBrainsMono[wght].woff2) format("woff2");
+    font-weight: 100 900;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inter";
+    src: url(font/inter-latin-400-normal.woff2) format("woff2");
+    font-weight: 400;
+    font-display: swap;
+}
+
+
+
+:root{
+    --white1: rgb(248, 245, 240);
+    --white2: rgb(255, 255, 255);
+    --black1: rgb(28, 28, 28);
+    --black2: rgb(15, 15, 15);
+    --padding-section: clamp(2rem, 3vw, 4rem);
+    --padding: clamp(1rem, 2vw, 2rem);
+}
+
+body{
+    font-family: "jetBrains Mono","Inter", monospace;
+    background-color: var(--black1);
+    color: var(--white1);
+    cursor: url('Curseur/normal-2.svg') 4 4, auto;
+    
+}
+
+/*Enléve les bar de scroll*/
+body::-webkit-scrollbar {
+  display: none;
+}
+
+a:hover, ul li:hover {
+    cursor: url('Curseur/hover1.svg') 4 4, pointer;
+}
+
+a:active {
+    cursor: url('Curseur/click.svg') 4 4, auto;
+}
+
+/*Taille, Couleur, typo, Graisse des texte*/
+
+h1{
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    color: var(--white1);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+h2{
+    font-size: clamp(1.375rem, 3vw, 2.5rem);
+    color: var(--white1);
+    text-transform: uppercase;
+    font-weight: 700; 
+}
+
+h3{
+    font-size: clamp(1.125rem, 2vw, 1.75rem);
+    color: var(--white1);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+p{
+    font-family: "Inter";
+    font-size: clamp(0.875rem, 1vw, 1.125rem);
+    max-width: 60ch;
+    font-weight: 400;
+}
+
+a{
+    font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.logo{
+    position: absolute;
+    left: 2rem;
+    top: 1rem;
+    height: clamp(32px, 3vw, 64px);
+}
+
+
+/*Section de l'interface Mini-jeu*/
+
+#heroGame h1{
+    padding: var(--padding-section);
+    text-align: center;
+}
+
+
+#heroGame .game{
+    height: 70vh;
+    width: 100%;
+    background-color: var(--black2);
+    position: relative;
+    border: 2px solid var(--white1);
+    border-right: 0px;
+    border-left: 0px;
+    position: relative;
+}
+
+#heroGame .game .settings svg{
+    fill: var(--white1);
+    height: 2rem;
+    width: 2rem;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    transition: transform 0.4s ease-out;
+    z-index: 10;
+    display: none;
+}
+
+#heroGame .game .settings svg:hover{
+    transform: scale(0.9) rotate(90deg);
+}
+
+#heroGame .game .score{
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 16px;
+    font-size: 1.5rem;
+
+}
+
+#heroGame .game .timer{
+    display: none;
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    font-size: 1.5rem;
+
+}
+
+
+.btn{
+    background-color: var(--white1);
+    text-transform: uppercase;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    display: inline-block;
+    color: var(--black1);
+    padding: 1rem 3rem;
+    border-radius: 10px;
+    border: 2px solid var(--white1);
+    transition: transform 0.3s linear, background-color 0.3s, color 0.3s, border-color 0.3s;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 90%;
+    left: 50%;
+    z-index: 10;
+}
+
+.btn:hover{
+    background-color: var(--black2);
+    color: var(--white2);
+    border-color: var(--white2);
+    transition: 0.3s linear;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+#heroGame .game .map {
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-drag: none;
+    height: 100%;
+    width: 100%;
+    
+}
+
+#heroGame .game .map img{
+    height: clamp(4rem, 4vw, 6rem);
+    width: clamp(4em, 4vw, 6rem);
+    position: absolute;
+    user-select: none;
+    -webkit-user-drag: none;
+    will-change: transform;
+    transform: translate(-50%, -50%);
+}
+
+#heroGame .game .map img.kill{
+    pointer-events: none;
+    animation: kill 1s ease-out;
+}
+
+#heroGame .game .map img.respawn{
+    animation: respawn 1s ease-out;
+}
+
+@keyframes kill{
+   from{
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+   }
+   to{
+    opacity: 0;
+    transform: scale(0) rotate(360deg);
+   }
+
+}
+
+@keyframes respawn{
+   from{
+    opacity: 0;
+    transform: scale(0);
+   }
+   to{
+    opacity: 1;
+    transform: scale(1);
+   }
+
+}
+
+
+.gameStart{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: var(--black2);
+    opacity: 0.95;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;  
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    animation: fontSizeAnim 1s ease-out infinite;
+}
+
+.gamePause{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    opacity: 0.95;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--black2);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    z-index: 9999;
+}
+
+.gamePause div{
+    padding: 0.5rem;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.gamePause div:hover{
+    transform: scale(0.9);
+    opacity: 0.5;
+}
+
+.endGame{
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--black2);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    z-index: 9999;
+}
+
+.endGame div{
+    padding: 1rem;
+}
+
+.endGame .container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.endGame .container .btn{
+    position: static;
+    transform: none;
+}
+
+
+@keyframes fontSizeAnim{
+    from{
+        font-size: calc(clamp(2.25rem, 6vw, 4rem)*0.5);
+    }
+    to{
+        font-size: calc(clamp(2.25rem, 6vw, 4rem)*2);
+    }
+}
+
+/*LES Boutton des classement & historique*/
+#lead{
+    padding: var(--padding-section) 0;
+}
+
+
+.containerBtn{
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    border: 1px solid var(--white1);
+    padding: clamp(0.125rem, 3vw, 0.25rem);
+    gap: clamp(0.125rem, 3vw, 0.25rem);
+}
+
+.boutton1, .boutton2{
+    width: 50%;
+    text-align: center;
+    padding: clamp(1rem, 3vw, 2rem);
+    
+}
+
+.boutton1:hover, .boutton2:hover{
+    opacity: 0.7;
+    background-color: var(--black2);
+}
+
+.active{
+    background-color: var(--white1);
+    color: var(--black1);
+    text-transform: uppercase;
+    font-weight: bold;
+    width: 50%;
+    text-align: center;
+    padding: clamp(1rem, 3vw, 2rem);
+}
+/*CONTENT*/
+.main{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.main h2{
+    text-align: center;
+    padding: clamp(0.5rem, 3vw, 1rem);
+}
+
+.contentMain{
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 450px;
+    width: 90%;
+    margin: 0 auto;
+   scrollbar-color: var(--white1) var(--black1);
+}
+
+
+
+.block{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    background-color: var(--black2);
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.stat{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    gap: 0.25rem;
+}
+
+.block .stat img{
+    height: clamp(24px, 3vw, 32px) ;
+    width: clamp(24px, 3vw, 32px) ;
+}
+
+@media(min-width: 768px){
+    .endGame .container{
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+    }
+    .containerBtn{
+        width: 50%;
+    }
+    .contentMain{
+        width: 50%;
+    }
+}
+
+.pseudo{
+    position: fixed;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black2);
+}
+
+.pseudo input{
+    padding: 1rem;
+    margin: 0.5rem;
+    width: 300px;
+}
+
+@keyframes error {
+    0%{
+        transform: translateX(0)
+    }
+    20%{
+        transform: translateX(2px);
+    }
+    40%{
+        transform: translateX(-2px);
+    }
+    60%{
+        transform: translateX(2px);
+    }
+    80%{
+        transform: translateX(-2px);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+
+.pseudo div, .pseudo button{
+    padding: 1rem;
+    width: 300px;
+    
+}
+
+.pseudo span{
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    text-transform: uppercase;
+}
+
+.erreur{
+    text-align: center;
+    color: red;
+}
+
+.btnPseudo{
+    background-color: var(--white1);
+    color: var(--black1);
+    text-transform: uppercase;
+    font-weight: bold;
+    border: solid 2px var(--white1);
+    width: 50%;
+    text-align: center;
+    padding: clamp(1rem, 3vw, 2rem);
+    transition: 0.3s ease-out;
+}
+
+.btnPseudo:hover{
+    transform: scale(1.05);
+    background-color: var(--black2);
+    color: var(--white1);
+}
+
+@media(min-width: 1024px){
+    #heroGame .game{
+        height: 80vh;
+        width: 80%;
+        margin: 0 auto;
+        border-right: 2px solid var(--white1);
+        border-left: 2px solid var(--white1);
+    }
+}
+
